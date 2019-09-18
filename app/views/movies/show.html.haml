@@ -1,0 +1,19 @@
+%h1= @movie.title
+.jumbotron
+  %img.img-rounded{src: "#{@poster_url}", width: "180"}/
+  %div
+    Rating: #{@rating}
+    %br/
+    Plot: #{@plot}
+  
+%h3 Comments
+= render partial: 'comments/form', locals: { comment: @comment }
+- @comments.each do |comment|
+  %div
+    %strong= comment.user_name
+    %br/
+    %p= comment.body
+    %p= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' }
+  
+- if user_signed_in?
+  %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
